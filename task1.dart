@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:vmservice_io';
+
 enum Specialization { General, Pediatric, Surgery }
 
 abstract class Person {
@@ -47,22 +50,22 @@ void main() {
   Patient omar = Patient('omar', 10);
   omar.insuranceCompanyName = 'Tahrer';
   Patient amr = Patient('amr', 2);
-  for (int i = 0; i < Person.userCount; i++) {
-    if (Person.persons[i] is Patient) {
-      if (Person.persons[i].insuranceCompanyName != null) {
+  for (var person in Person.persons) {
+    if (person is Doctor) {
+      print(
+        'Doctor Name is: ${person.name} , age is ${person.age} years old , Specialization is ${person.field.name}',
+      );
+    } else if (person is Patient) {
+      if (person.insuranceCompanyName != null) {
         print(
-          'Pationt Name is: ${Person.persons[i].name} , age is ${Person.persons[i].age} years old and insurance company name is ${Person.persons[i].insuranceCompanyName}',
+          'Pationt Name is: ${person.name} , age is ${person.age} years old and insurance company name is ${person.insuranceCompanyName}',
         );
       } else {
         print(
-          'Pationt Name is: ${Person.persons[i].name} , age is ${Person.persons[i].age} years old and no insurance availabule',
+          'Pationt Name is: ${person.name} , age is ${person.age} years old and no insurance availabule',
         );
       }
-      Person.persons[i].applyInsurance();
-    } else {
-      print(
-        'Doctor Name is: ${Person.persons[i].name} , age is ${Person.persons[i].age} years old , Specialization is ${Person.persons[i].field}',
-      );
     }
   }
+  print(Person.userCount);
 }
